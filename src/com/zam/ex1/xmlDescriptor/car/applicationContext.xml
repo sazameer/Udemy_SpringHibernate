@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	
+    <!-- Define your beans here -->
+    <!--  This bean is used to control the logging level of this spring application
+    		ALLOWED VALUES : FINE, FINEST, INFO etc.. 
+    -->
+    <bean id="myLoggerConfig" class="com.zam.logging.MyLogger" init-method="initLogger">
+    	<property name="rootLoggerLevel" value="INFO" />
+    	<property name="consoleLoggerLevel" value="INFO"/>
+    </bean>
+    
+    <!-- Helper Bean, used by the main bean object in Example 1 and 2 -->
+    <bean id="myCarEngine" class="com.zam.xmlDescriptor.car.impl.V6Engine" />
+    
+    <!-- Example 1: Dependency Injection using Constructor -->
+    <!-- 
+    <bean id="myCar" class="com.zam.carDemo.Hatchback">
+    	<constructor-arg ref="myCarEngine"></constructor-arg>
+    </bean> 
+    -->
+    
+    <!-- Example 2: Dependency Injection using setter methods -->
+    
+    <!-- Properties file loading -->
+    <context:property-placeholder location="classpath:car-config.properties"/>
+    
+    <bean id="myCar1" class="com.zam.xmlDescriptor.car.impl.Sedan">
+    	<!-- This will call the setter method defined in the Class -->
+    	<property name="engine" ref="myCarEngine" />
+    	<property name="carType" value="${car.type}"/>
+    	<property name="carModel" value="${car.model}"/>
+    </bean>
+    
+    
+    <!-- Example 2: Spring Bean Scopes and Lifecycle method Demonstration -->
+    <!-- 
+    	Bean Scopes:
+   		============
+    		a) singleton : default scope (Only one bean instance will be created)
+   			b) prototype : New object created for each request
+    		c) request 			==
+    		d) session			  |-> will be used in web application(as of now details not available)
+    		e) global-session   ==
+    					
+    	use "scope" attribute in the "bean" tag
+    					
+    	Spring Bean Lifecycle:
+    	=====================
+    	*********		************-		************-		*********-		************-		*********-		*********-			************-
+    	Spring			Beans				Dependencies		Internal		Your Custom			Bean ready		Your Custom							
+    	Container	->	Instantiated	->	Injected	->		Spring		->	init		->		to Use		->	destroy		->		SPRING STOPS
+    	Started													Processing		method invoked						method
+    	*********		************-		************-		*********-		************-		*********-		*********-			************-
+    	
+    	use "init-method"/"destroy-method" attribute in the "bean" tag
+     -->
+     
+    <bean id="myCar" 
+    class="com.zam.xmlDescriptor.car.impl.Hatchback" 
+    scope="prototype"
+    init-method="myCustomInitMethod"
+    destroy-method="myCustomDestroyMethod" >
+    </bean> 
+    
+</beans>
+
+
+
+
+
