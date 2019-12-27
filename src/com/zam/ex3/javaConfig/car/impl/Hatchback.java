@@ -1,24 +1,15 @@
 package com.zam.ex3.javaConfig.car.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import com.zam.ex3.javaConfig.car.Car;
+import com.zam.ex3.javaConfig.car.Engine;
 
-import com.zam.ex2.annotations.car.Car;
-import com.zam.ex2.annotations.car.Engine;
-
-@Component
 public class Hatchback implements Car {
 	
 	
 	private Engine engine;
 	
-	public Hatchback() {
-		
-	}
 	
-	@Autowired
-	public Hatchback(@Qualifier("v6Engine")Engine engine) {
+	public Hatchback(Engine engine) {
 		this.engine = engine;	
 	}
 

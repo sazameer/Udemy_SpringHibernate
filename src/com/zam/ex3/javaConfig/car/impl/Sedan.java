@@ -2,8 +2,8 @@ package com.zam.ex3.javaConfig.car.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.zam.ex2.annotations.car.Car;
-import com.zam.ex2.annotations.car.Engine;
+import com.zam.ex3.javaConfig.car.Car;
+import com.zam.ex3.javaConfig.car.Engine;
 
 @Component
 public class Sedan implements Car {
