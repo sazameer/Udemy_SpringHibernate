@@ -1,4 +1,4 @@
-package com.zam.ex4.hibernate.utils;
+package com.zam.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

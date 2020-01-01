@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.zam.ex4.hibernate.entity.Student;
-import com.zam.ex4.hibernate.utils.DateUtils;
+import com.zam.utils.DateUtils;
 
 public class HibernateDemo {
 	
