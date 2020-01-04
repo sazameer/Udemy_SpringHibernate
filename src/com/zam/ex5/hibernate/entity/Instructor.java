@@ -1,5 +1,8 @@
 package com.zam.ex5.hibernate.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,6 +35,12 @@ public class Instructor {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="instructor_detail_id")
 	private InstructorDetail instructorDetailId;
+	
+	@OneToMany(mappedBy="instructor", 
+			cascade= {CascadeType.PERSIST, CascadeType.DETACH, 
+					CascadeType.MERGE, CascadeType.REFRESH})
+	
+	private List<Course> courses;
 	
 	public Instructor() {
 		
@@ -82,10 +92,29 @@ public class Instructor {
 		this.instructorDetailId = instructorDetailId;
 	}
 
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+	
+	//Add convenience method for bidirectional relationship
+	public void addCourse(Course course) {
+		if(this.courses == null) {
+			System.out.println("Courses object is null");
+			this.courses = new ArrayList<>();
+		}
+		
+		this.courses.add(course);
+		course.setInstructor(this);
+		//System.out.println("Added Course : " + course);
+	}
+
 	@Override
 	public String toString() {
 		return "Instructor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", instructorDetailId=" + instructorDetailId + "]";
+				+ ", instructorDetailId=" + instructorDetailId + ", courses=" + courses + "]";
 	}
-
 }
